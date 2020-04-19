@@ -1,12 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
-import { ProductsComponent } from './pages/products/products.component';
-import { ContactComponent } from './pages/contact/contact.component';
-import { DemoComponent } from './pages/demo/demo.component';
-import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
-import { ProductDetailComponent } from './pages/product-detail/product-detail.component';
 import { LayoutComponent } from './pages/layout/layout.component';
+
 import { AdminGuard } from './core/guards/admin.guard';
 
 const routes: Routes = [
@@ -17,35 +13,36 @@ const routes: Routes = [
       {
         path: '',
         redirectTo: '/home',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'home',
-        loadChildren: () =>
-          import('./pages/home/home.module').then(module => module.HomeModule)
+        loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule)
       },
       {
         path: 'products',
-        component: ProductsComponent
-      },
-      {
-        path: 'products/:id',
-        component: ProductDetailComponent
+        canActivate: [AdminGuard],
+        loadChildren: () => import('./pages/product/product.module').then(m => m.ProductModule)
       },
       {
         path: 'contact',
-        component: ContactComponent,
-        canActivate: [AdminGuard]
+        canActivate: [AdminGuard],
+        loadChildren: () => import('./pages/contact/contact.module').then(m => m.ContactModule)
       },
       {
         path: 'demo',
-        component: DemoComponent
+        canActivate: [AdminGuard],
+        loadChildren: () => import('./pages/demo/demo.module').then(m => m.DemoModule)
       },
     ]
   },
   {
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
+  },
+  {
     path: '**',
-    component: PageNotFoundComponent
+    loadChildren: () => import('./pages/page-not-found/page-not-found.module').then(m => m.PageNotFoundModule)
   }
 ];
 
