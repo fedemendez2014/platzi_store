@@ -20,8 +20,16 @@ export class ProductsService {
     return this.httpClient.get<any>(`${environment.URLAPI}/products/${id}`);
   }
 
-  createProduct(product: Product){
+  createProduct(product: Product) {
     return this.httpClient.post(`${environment.URLAPI}/products`, product);
+  }
+
+  updateProduct(id: string, changes: Partial<Product>) {
+    return this.httpClient.put<any>(`${environment.URLAPI}/products/${id}`, changes);
+  }
+
+  deleteProduct(id: string) {
+    return this.httpClient.delete<any>(`${environment.URLAPI}/products/${id}`);
   }
 
 }

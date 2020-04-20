@@ -43,7 +43,27 @@ export class ProductDetailComponent implements OnInit {
     };
     this.productsService.createProduct(newProduct).subscribe(
       product => {
-        console.log(product)
+        console.log(product);
+      }
+    );
+  }
+
+  updateProduct() {
+    const updateProduct: Partial<Product> = {
+      price: 12150.00,
+      description: 'edicion del producto prueba'
+    };
+    this.productsService.updateProduct('142', updateProduct).subscribe(
+      product => {
+        console.log(product);
+      }
+    );
+  }
+
+  deleteProduct() {
+    this.productsService.deleteProduct('142').subscribe(
+      product => {
+        console.log(product);
       }
     );
   }
